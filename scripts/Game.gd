@@ -8,6 +8,7 @@ var state = GameState.GAME_OVER
 
 var init_play_time: float = 10.0
 var portal_bonus: float = 0.0
+var porta_bonus_multiplier = 1.5
 
 var jumps: int = 0
 var play_time: float = 0.0
@@ -39,9 +40,10 @@ func setup_level():
 	$PortalMarker.position.x = rand_range(portal_buffer, world_sz.x - (portal_buffer * 2)) - world_sz.x / 2
 	$PortalMarker.position.y = rand_range(portal_buffer, world_sz.y - (portal_buffer * 2)) - world_sz.y / 2
 	
-	# var dist: Vector2 = $PortalMaker.position - $Ship.position
-	print($PortalMarker.position)
-	print($Ship.position)
+	var player_portal_diff = $PortalMarker.position - $Ship.position
+	var diff_mag = player_portal_diff.length()
+	portal_bonus = diff_mag / 1000 * porta_bonus_multiplier
+	print(portal_bonus)
 
 	$Portal.start($PortalMarker.position)
 	
