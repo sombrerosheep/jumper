@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
-export var speed = 400
-export var max_velocity = 200
-export var rotation_speed = 3.5
+var speed = 400
+var max_velocity = 200
+var rotation_speed = 3.5
 
-var can_control: bool = true
+var is_active: bool = false
 
 var bounds: Vector2
 var velocity: Vector2
@@ -17,28 +17,15 @@ func _ready():
 func start(pos: Vector2,  b: Vector2):
 	position = pos
 	bounds = b
-	can_control = true
+	is_active = true
 	show()
 	
-func is_out_of_bounds() -> bool:
-	var half_bx = bounds.x / 2
-	var half_by = bounds.y / 2
-	var sz: Vector2 = $Sprite.get_rect().size
-
-	if position.x - sz.x / 2 < -half_bx:
-		return true
-	if position.x + sz.x / 2 > half_bx:
-		return true
-	if position.y - sz.y / 2 < -half_by:
-		return true
-	if position.y + sz.y / 2 > half_by:
-		return true
-	
-	return false
+func get_rect() -> Rect2:
+	return Rect2(position, $Sprite.get_rect().size)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if can_control == true:
+	if is_active == true:
 		if Input.is_action_pressed("left"):
 			rotation -= rotation_speed * delta
 		
@@ -67,7 +54,6 @@ func _physics_process(delta: float) -> void:
 	
 	velocity.x -= velocity.x * .25 * delta
 	velocity.y -= velocity.y * .25 * delta
-	
-	# if is_out_of_bounds() == true:
-		# can_control = false
-		# print("ship is out of bounds!")
+
+func shutdown():
+	is_active = false
