@@ -15,6 +15,7 @@ func _ready():
 	#hide()
 
 func start(pos: Vector2,  b: Vector2):
+	velocity = Vector2.ZERO
 	position = pos
 	bounds = b
 	is_active = true
