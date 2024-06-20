@@ -2,7 +2,10 @@ extends Node2D
 
 signal game_over
 
-enum GameState {PLAYING, GAME_OVER}
+enum GameState {GETTING_STARTED, PLAYING, GAME_OVER}
+
+export var ready_countdown: float = 3.0
+export var ready_message: String = "Go!"
 
 var state = GameState.GAME_OVER
 
@@ -18,22 +21,24 @@ var world_sz: Vector2 = Vector2(4000, 2500)
 func _ready():
 	hide()
 
-func start():
-	$HUD.show()
-	show()
-	state = GameState.PLAYING
-	$MainCamera.set_target($Ship)
-	new_game()
 
 func new_game():
-	$World.init(world_sz)
-	$MainCamera.set_bounds(world_sz)
+	show()
+	state = GameState.GETTING_STARTED
+
+	$HUD.show()
 	jumps = 0
 	play_time = init_play_time
-	var player_start: Vector2 = Vector2(0,0)
-	$Ship.start(player_start, world_sz)
+
+	$World.init(world_sz)
 	
+	$MainCamera.set_target($Ship)
+	$MainCamera.set_bounds(world_sz)
+	
+	$Ship.start(Vector2(0,0), world_sz)
+
 	setup_level()
+	$StartCountdown.init(ready_countdown, ready_message)
 
 func setup_level():
 	var portal_buffer = 32
@@ -43,10 +48,9 @@ func setup_level():
 	var player_portal_diff = $PortalMarker.position - $Ship.position
 	var diff_mag = player_portal_diff.length()
 	portal_bonus = diff_mag / 1000 * porta_bonus_multiplier
-	print(portal_bonus)
 
 	$Portal.start($PortalMarker.position)
-	
+
 func is_out_of_bounds(rec: Rect2) -> bool:
 	var half_bx = world_sz.x / 2
 	var half_by = world_sz.y / 2
@@ -65,6 +69,9 @@ func is_out_of_bounds(rec: Rect2) -> bool:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	match state:
+		GameState.GETTING_STARTED:
+			# countdown is processing
+			pass
 		GameState.PLAYING:
 			play_time -= delta
 			$HUD.update_playtime(play_time)
@@ -86,3 +93,7 @@ func _on_ship_jump():
 	play_time += portal_bonus
 	$HUD.set_jumps(jumps)
 	setup_level()
+
+func _on_countdown_complete():
+	state = GameState.PLAYING
+	$Ship.activate()

@@ -5,6 +5,7 @@ var max_velocity = 200
 var rotation_speed = 3.5
 
 var is_active: bool = false
+var is_shutdown: bool = false
 
 var bounds: Vector2
 var velocity: Vector2
@@ -12,13 +13,14 @@ var velocity: Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	velocity = Vector2.ZERO
-	#hide()
+	hide()
 
 func start(pos: Vector2,  b: Vector2):
 	velocity = Vector2.ZERO
 	position = pos
 	bounds = b
-	is_active = true
+	is_active = false
+	is_shutdown = false
 	show()
 	
 func get_rect() -> Rect2:
@@ -43,8 +45,8 @@ func _physics_process(delta: float) -> void:
 			velocity.y -= velocity.y * .75 * delta
 		
 		velocity = Utilities.Vector2_clampf(velocity, -max_velocity, max_velocity)
-		
-	else:
+	
+	if is_shutdown == true:
 		rotation += rotation_speed * 2 * delta
 		velocity = Vector2.ZERO
 	
@@ -56,5 +58,8 @@ func _physics_process(delta: float) -> void:
 	velocity.x -= velocity.x * .25 * delta
 	velocity.y -= velocity.y * .25 * delta
 
+func activate():
+	is_active = true
+
 func shutdown():
-	is_active = false
+	is_shutdown = false
