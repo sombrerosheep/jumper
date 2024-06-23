@@ -51,6 +51,8 @@ func setup_level():
 
 	$Portal.start($PortalMarker.position)
 
+	$HUD.update_playtime(play_time)
+
 func is_out_of_bounds(rec: Rect2) -> bool:
 	var half_bx = world_sz.x / 2
 	var half_by = world_sz.y / 2
@@ -73,13 +75,13 @@ func _process(delta):
 			# countdown is processing
 			pass
 		GameState.PLAYING:
-			play_time -= delta
+			play_time = max(0, play_time - delta)
 			$HUD.update_playtime(play_time)
 
 			if is_out_of_bounds($Ship.get_rect()):
 				state = GameState.GAME_OVER
 			
-			if play_time < 0.0:
+			if play_time <= 0.0:
 				state = GameState.GAME_OVER
 				play_time = 0.0
 		GameState.GAME_OVER:
