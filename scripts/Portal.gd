@@ -1,6 +1,5 @@
 extends Area2D
 
-signal hit
 signal ship_jump
 
 export var rotation_speed = 0.5

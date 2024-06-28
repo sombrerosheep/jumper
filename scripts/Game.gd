@@ -9,7 +9,7 @@ export var ready_message: String = "Go!"
 
 var state = GameState.GAME_OVER
 
-var init_play_time: float = 10.0
+var init_play_time: float = 25.0
 var portal_bonus: float = 0.0
 var porta_bonus_multiplier = 1.5
 
@@ -30,8 +30,6 @@ func new_game():
 	jumps = 0
 	play_time = init_play_time
 
-	$World.init(world_sz)
-	
 	$MainCamera.set_target($Ship)
 	$MainCamera.set_bounds(world_sz)
 	
