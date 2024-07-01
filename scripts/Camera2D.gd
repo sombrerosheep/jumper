@@ -16,7 +16,10 @@ func _process(delta: float):
 		position = lerp(position, target.position, delta * lerp_weight)
 	
 	position = Utilities.Vector2_clamp(position, clamp_min, clamp_max)
-	# position = position.clamp(clamp_min, clamp_max)
+
+func setup(pos: Vector2, b: Vector2):
+	position = pos
+	set_bounds(b)
 
 func set_bounds(b: Vector2):
 	var viewport = get_viewport_rect().size

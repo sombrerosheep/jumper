@@ -30,10 +30,10 @@ func new_game():
 	jumps = 0
 	play_time = init_play_time
 
-	$MainCamera.set_target($Ship)
-	$MainCamera.set_bounds(world_sz)
-	
 	$Ship.start(Vector2(0,0), world_sz)
+
+	$MainCamera.setup($Ship.position, world_sz)
+	$MainCamera.set_target($Ship)
 
 	setup_level()
 	$StartCountdown.init(ready_countdown, ready_message)
