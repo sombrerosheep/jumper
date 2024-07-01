@@ -28,8 +28,9 @@ func _process(delta):
 			if count < 0:
 				count = 0
 				state = CountdownState.ELAPSED
+				return
 
-			$Text.text = "%.0f" % count
+			$Text.text = "%.0f" % ceil(count)
 		CountdownState.ELAPSED:
 			$Text.text = message
 			count += delta
