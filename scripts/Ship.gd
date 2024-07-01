@@ -58,6 +58,10 @@ func _physics_process(delta: float) -> void:
 	velocity.x -= velocity.x * .25 * delta
 	velocity.y -= velocity.y * .25 * delta
 
+func portal_jump():
+	velocity *= 0.25
+	is_active = false
+
 func activate():
 	is_active = true
 

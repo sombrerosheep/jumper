@@ -93,6 +93,7 @@ func _on_ship_jump():
 	play_time += portal_bonus
 	$HUD.set_jumps(jumps)
 	setup_level()
+	$AnimationPlayer.play("NextLevel")
 
 func _on_countdown_complete():
 	state = GameState.PLAYING
