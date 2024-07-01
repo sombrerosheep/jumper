@@ -15,8 +15,7 @@ func _on_StartGame_pressed():
 	$UI.hide()
 	get_node("GameRoot").add_child(game_scene)
 	game_scene.new_game()
-	game_scene.connect("game_over", self, "_on_Game_game_over")
-
+	game_scene.connect("game_end", self, "_on_Game_game_over")
 
 func _on_Game_game_over():
 	$UI.show()

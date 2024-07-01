@@ -1,8 +1,9 @@
 extends Node2D
 
 signal game_over
+signal game_end
 
-enum GameState {GETTING_STARTED, PLAYING, GAME_OVER}
+enum GameState {GETTING_STARTED, PLAYING, GAME_OVER, END}
 
 export var ready_countdown: float = 3.0
 export var ready_message: String = "Go!"
@@ -82,14 +83,24 @@ func _process(delta):
 			if play_time <= 0.0:
 				state = GameState.GAME_OVER
 				play_time = 0.0
+
+			if state == GameState.GAME_OVER:
+				emit_signal("game_over")
 		GameState.GAME_OVER:
-			$Ship.shutdown()
-			emit_signal("game_over")
+			yield(get_tree().create_timer(3), "timeout")
+			state = GameState.END
+		GameState.END:
+			emit_signal("game_end")
 		_:
 			pass
 
+func _on_game_over():
+	$Ship.shutdown()
+	$FX/Die.play()
+
 func _on_ship_jump():
 	jumps += 1
+	$FX/Jump.play()
 	play_time += portal_bonus
 	$HUD.set_jumps(jumps)
 	setup_level()
