@@ -10,7 +10,10 @@ export var ready_message: String = "Go!"
 
 var state = GameState.GAME_OVER
 
-var init_play_time: float = 25.0
+const init_play_time: float = 25.0
+const return_to_menu: float = 2.5
+var gameover_countdown: float = 0.0
+
 var portal_bonus: float = 0.0
 var porta_bonus_multiplier = 1.5
 
@@ -29,6 +32,7 @@ func new_game():
 
 	$HUD.show()
 	jumps = 0
+	gameover_countdown = 0
 	play_time = init_play_time
 
 	$Ship.start(Vector2(0,0), world_sz)
@@ -87,8 +91,11 @@ func _process(delta):
 			if state == GameState.GAME_OVER:
 				emit_signal("game_over")
 		GameState.GAME_OVER:
-			yield(get_tree().create_timer(3), "timeout")
-			state = GameState.END
+			gameover_countdown += delta
+			$MainCamera/Fade.set_modulate(Color(0,0,0, gameover_countdown / (return_to_menu - .2)))
+
+			if gameover_countdown >= return_to_menu:
+				state = GameState.END
 		GameState.END:
 			emit_signal("game_end")
 		_:
