@@ -28,6 +28,7 @@ func _ready():
 
 func new_game():
 	show()
+	$MainCamera/Fade.set_modulate(Color(0,0,0,0))
 	state = GameState.GETTING_STARTED
 
 	$HUD.show()

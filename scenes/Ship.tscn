@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Ship.gd" type="Script" id=1]
 [ext_resource path="res://art/ship.png" type="Texture" id=2]
-[ext_resource path="res://audio/fx/die.wav" type="AudioStream" id=3]
+[ext_resource path="res://audio/fx/thruster.wav" type="AudioStream" id=3]
+[ext_resource path="res://audio/fx/die.wav" type="AudioStream" id=4]
 
 [node name="Ship" type="KinematicBody2D"]
 scale = Vector2( 0.5, 0.5 )
@@ -18,4 +19,7 @@ polygon = PoolVector2Array( 66, 1, -7, -28, 17, -46, -64, -65, -63, 63, 17, 45, 
 [node name="FX" type="AudioStreamPlayer" parent="."]
 
 [node name="Die" type="AudioStreamPlayer" parent="FX"]
+stream = ExtResource( 4 )
+
+[node name="Thrust" type="AudioStreamPlayer" parent="FX"]
 stream = ExtResource( 3 )
