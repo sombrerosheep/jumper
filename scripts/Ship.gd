@@ -66,4 +66,5 @@ func activate():
 	is_active = true
 
 func shutdown():
+	$FX/Die.play()
 	is_shutdown = false

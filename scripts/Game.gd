@@ -103,7 +103,6 @@ func _process(delta):
 
 func _on_game_over():
 	$Ship.shutdown()
-	$FX/Die.play()
 
 func _on_ship_jump():
 	jumps += 1

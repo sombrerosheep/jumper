@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/Ship.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/World.tscn" type="PackedScene" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://art/white.png" type="Texture" id=8]
 [ext_resource path="res://shaders/pixelate.shader" type="Shader" id=9]
 [ext_resource path="res://audio/fx/jump.wav" type="AudioStream" id=10]
-[ext_resource path="res://audio/fx/die.wav" type="AudioStream" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "NextLevel"
@@ -122,9 +121,6 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="Jump" type="AudioStreamPlayer" parent="FX"]
 stream = ExtResource( 10 )
-
-[node name="Die" type="AudioStreamPlayer" parent="FX"]
-stream = ExtResource( 11 )
 
 [connection signal="game_over" from="." to="." method="_on_game_over"]
 [connection signal="countdown_complete" from="StartCountdown" to="." method="_on_countdown_complete"]
